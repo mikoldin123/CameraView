@@ -16,13 +16,13 @@ class CameraSquare: UIView {
         }
     }
 
-    var lineWidth : CGFloat = 4.0 {
+    var lineWidth : CGFloat = 12.0 {
         didSet{
             self.draw(self.bounds)
         }
     }
 
-    var lineColor : UIColor = UIColor.white {
+    var lineColor : UIColor = UIColor.blue {
         didSet{
             self.draw(self.bounds)
         }

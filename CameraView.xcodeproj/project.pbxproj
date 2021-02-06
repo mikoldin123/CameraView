@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE8E96D725CE626F00B7780E /* CameraFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8E96D625CE626F00B7780E /* CameraFrame.swift */; };
 		FEF1DBFC24D112CA003DF7A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF1DBFB24D112CA003DF7A7 /* AppDelegate.swift */; };
 		FEF1DC0024D112CA003DF7A7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF1DBFF24D112CA003DF7A7 /* ViewController.swift */; };
 		FEF1DC0324D112CA003DF7A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEF1DC0124D112CA003DF7A7 /* Main.storyboard */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FE8E96D625CE626F00B7780E /* CameraFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraFrame.swift; sourceTree = "<group>"; };
 		FEF1DBF824D112CA003DF7A7 /* CameraView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEF1DBFB24D112CA003DF7A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FEF1DBFF24D112CA003DF7A7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				FEF1DC1124D11310003DF7A7 /* Camera.swift */,
 				FEF1DC2F24D13A22003DF7A7 /* Camera+Constants.swift */,
 				FEF1DC3124D13B44003DF7A7 /* CameraSquare.swift */,
+				FE8E96D625CE626F00B7780E /* CameraFrame.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 				FEF1DC1324D11310003DF7A7 /* Camera.swift in Sources */,
 				FEF1DC0024D112CA003DF7A7 /* ViewController.swift in Sources */,
 				FEF1DC3C24D14F4D003DF7A7 /* CameraManager.swift in Sources */,
+				FE8E96D725CE626F00B7780E /* CameraFrame.swift in Sources */,
 				FEF1DBFC24D112CA003DF7A7 /* AppDelegate.swift in Sources */,
 				FEF1DC3224D13B44003DF7A7 /* CameraSquare.swift in Sources */,
 				FEF1DC3A24D147D3003DF7A7 /* CameraPreviewController.swift in Sources */,

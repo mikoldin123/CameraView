@@ -50,9 +50,13 @@ class ViewController: UIViewController {
         let service = CameraManager.shared
         service.previewDelegate = self
         
+        
         let cameraController = CameraViewController(manager: service)
         cameraController.modalPresentationStyle = .fullScreen
-        self.present(cameraController, animated: true, completion: nil)
+        
+        let navigation = UINavigationController(rootViewController: cameraController)
+        navigation.modalPresentationStyle = .fullScreen
+        self.present(navigation, animated: true, completion: nil)
     }
 
 }

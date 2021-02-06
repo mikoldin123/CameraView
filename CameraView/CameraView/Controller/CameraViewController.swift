@@ -11,83 +11,19 @@ import UIKit
 import AVFoundation
 
 class CameraViewController: UIViewController {
-    lazy var cameraImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(imageView)
-        
-        NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            imageView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
-        ])
-        
-        return imageView
-    }()
-    
     lazy var controlsView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(view)
         
-        var trailing = view.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
-        trailing.priority = .defaultHigh
-        
         NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: self.cameraImageView.topAnchor),
-            view.bottomAnchor.constraint(equalTo: self.cameraImageView.bottomAnchor),
-            trailing,
-            view.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.20)
+            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            view.heightAnchor.constraint(equalToConstant: 180.0),
+            view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
         
         return view
-    }()
-    
-    lazy var captureButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        self.controlsView.addSubview(button)
-        
-        NSLayoutConstraint.activate([
-            button.topAnchor.constraint(equalTo: self.controlsView.topAnchor, constant: 64.0),
-            button.heightAnchor.constraint(equalToConstant: 80.0),
-            button.centerXAnchor.constraint(equalTo: self.controlsView.centerXAnchor)
-        ])
-        
-        return button
-    }()
-    
-    lazy var closeButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        self.controlsView.addSubview(button)
-        
-        NSLayoutConstraint.activate([
-            button.bottomAnchor.constraint(equalTo: self.controlsView.bottomAnchor, constant: -64.0),
-            button.heightAnchor.constraint(equalToConstant: 44.0),
-            button.centerXAnchor.constraint(equalTo: self.controlsView.centerXAnchor)
-        ])
-        
-        return button
-    }()
-    
-    lazy var camera: CameraServices = {
-        return Camera()
-    }()
-    
-    fileprivate lazy var cameraSquare: CameraSquare = {
-        let square = CameraSquare()
-        square.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(square)
-        
-        NSLayoutConstraint.activate([
-            square.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 32.0),
-            square.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 32.0),
-            square.trailingAnchor.constraint(equalTo: self.controlsView.leadingAnchor, constant: -32.0)
-        ])
-        
-        return square
     }()
     
     fileprivate lazy var instructionLabel: UILabel = {
@@ -96,15 +32,78 @@ class CameraViewController: UIViewController {
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.textAlignment = .center
-        self.view.addSubview(label)
+        self.controlsView.addSubview(label)
         
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: self.cameraSquare.leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: self.cameraSquare.trailingAnchor),
-            label.topAnchor.constraint(equalTo: self.cameraSquare.bottomAnchor, constant: 16.0),
-            label.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -24.0)
+            label.leadingAnchor.constraint(equalTo: self.controlsView.leadingAnchor),
+            label.trailingAnchor.constraint(equalTo: self.controlsView.trailingAnchor),
+            label.topAnchor.constraint(equalTo: self.controlsView.topAnchor, constant: 16.0)
         ])
         
+        return label
+    }()
+    
+    lazy var captureButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        self.controlsView.addSubview(button)
+        
+        NSLayoutConstraint.activate([
+            button.topAnchor.constraint(equalTo: self.instructionLabel.bottomAnchor, constant: 16.0),
+            button.heightAnchor.constraint(equalToConstant: 80.0),
+            button.centerXAnchor.constraint(equalTo: self.controlsView.centerXAnchor)
+        ])
+        
+        return button
+    }()
+
+    lazy var cameraImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(imageView)
+        
+        NSLayoutConstraint.activate([
+            imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: self.controlsView.topAnchor),
+            imageView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
+        return imageView
+    }()
+    
+    lazy var camera: CameraServices = {
+        return Camera()
+    }()
+    
+    fileprivate lazy var cameraSquare: CameraFrame = {
+        let square = CameraFrame()
+        square.translatesAutoresizingMaskIntoConstraints = false
+        self.cameraImageView.addSubview(square)
+        
+        NSLayoutConstraint.activate([
+            square.leadingAnchor.constraint(equalTo: self.cameraImageView.leadingAnchor, constant: 16.0),
+            square.trailingAnchor.constraint(equalTo: self.cameraImageView.trailingAnchor, constant: -16.0),
+            square.heightAnchor.constraint(equalTo: self.cameraImageView.heightAnchor, multiplier: 0.45),
+            square.centerYAnchor.constraint(equalTo: self.cameraImageView.centerYAnchor, constant: -24.0)
+        ])
+        
+        return square
+    }()
+    
+    fileprivate lazy var captureInstructionLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        label.textAlignment = .center
+        self.cameraImageView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.leadingAnchor.constraint(equalTo: self.cameraImageView.leadingAnchor, constant: 16.0),
+            label.trailingAnchor.constraint(equalTo: self.cameraImageView.trailingAnchor, constant: -16.0),
+            label.bottomAnchor.constraint(equalTo: self.cameraSquare.topAnchor, constant: -16.0)
+        ])
         
         return label
     }()
@@ -116,7 +115,20 @@ class CameraViewController: UIViewController {
         }
     }
     
+    var captureInstructions: String = "" {
+        didSet {
+            let strokeTextAttributes: [NSAttributedString.Key : Any] = [.strokeColor : UIColor.black, .foregroundColor : UIColor.white, .strokeWidth : -2.0]
+            captureInstructionLabel.attributedText = NSAttributedString(string: captureInstructions, attributes: strokeTextAttributes)
+        }
+    }
+    
     var cameraMngr: CameraManagerServices?
+    
+    var showCaptureSquare: Bool = true {
+        didSet {
+            cameraSquare.isHidden = !showCaptureSquare
+        }
+    }
     
     convenience init(manager: CameraManagerServices) {
         self.init()
@@ -126,22 +138,30 @@ class CameraViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = "Take Photo"
+        if #available(iOS 13.0, *) {
+            navigationController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(closeCamera))
+        } else {
+            // Fallback on earlier versions
+        }
+        
         cameraImageView.backgroundColor = .black
-        controlsView.alpha = 0.80
+    
         controlsView.backgroundColor = .black
         
         camera.configure()
         camera.session.startRunning()
      
-        instructions = "Please place your passport inside the outline above"
+        instructions = "Place your ID within the frame and take a picture"
         
         captureButton.setImage(#imageLiteral(resourceName: "shutter-icon"), for: .normal)
         captureButton.addTarget(self, action: #selector(willCapturePhoto), for: .touchUpInside)
         
-        closeButton.setImage(#imageLiteral(resourceName: "close-camera-icon"), for: .normal)
-        closeButton.addTarget(self, action: #selector(closeCamera), for: .touchUpInside)
-        
         cameraMngr?.flowDelegate = self
+        
+        cameraSquare.backgroundColor = .clear
+
+        captureInstructions = "Front of ID"
     }
     
     override func viewDidLayoutSubviews() {
@@ -150,19 +170,21 @@ class CameraViewController: UIViewController {
         var layerRect = self.cameraImageView.frame
         layerRect.origin.x = 0
         layerRect.origin.y = 0
-        
-        camera.outputRect = cameraSquare.frame
-        
-        
+  
+        camera.outputRect = showCaptureSquare ? cameraSquare.frame: cameraImageView.frame
+
         camera.previewLayer.bounds = layerRect
         camera.previewLayer.position = CGPoint(x: layerRect.midX, y: layerRect.midY)
         self.cameraImageView.layer.addSublayer(camera.previewLayer)
         
         self.view.sendSubviewToBack(self.cameraImageView)
+        
+        cameraImageView.bringSubviewToFront(cameraSquare)
+        cameraImageView.bringSubviewToFront(captureInstructionLabel)
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .landscapeRight
+        return .portrait
     }
 
     override var shouldAutorotate: Bool {
@@ -170,7 +192,7 @@ class CameraViewController: UIViewController {
     }
     
     override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
-        return .landscapeRight
+        return .portrait
     }
 }
 
@@ -201,8 +223,7 @@ extension CameraViewController: CameraFlowDelegate {
         }
         
         let preview = CameraPreviewController(manager: service)
-        preview.modalPresentationStyle = .fullScreen
-        self.present(preview, animated: false, completion: nil)
+        self.navigationController?.pushViewController(preview, animated: true)
     }
     
     func willCloseCamera() {

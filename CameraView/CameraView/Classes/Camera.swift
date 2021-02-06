@@ -49,7 +49,7 @@ class Camera: NSObject, CameraServices {
         
         let preview =  AVCaptureVideoPreviewLayer(session: self.session)
         preview.videoGravity = .resizeAspectFill
-        preview.connection?.videoOrientation = .landscapeRight
+        preview.connection?.videoOrientation = .portrait
 
         return preview
     }()
@@ -84,7 +84,7 @@ class Camera: NSObject, CameraServices {
         }
 
         if let avConnection: AVCaptureConnection = photoOutput.connection(with: .video) {
-            avConnection.videoOrientation = .landscapeLeft
+            avConnection.videoOrientation = .portrait
         }
         
         if session.canAddOutput(photoOutput) {
@@ -125,13 +125,20 @@ class Camera: NSObject, CameraServices {
     
     private func cropToPreviewLayer(originalImage: UIImage, withBoundingRect rect: CGRect) -> UIImage {
         let outputRect = previewLayer.metadataOutputRectConverted(fromLayerRect: rect)
-        var cgImage = originalImage.cgImage!
+        
+        guard let cgImage = originalImage.cgImage else {
+            return originalImage
+        }
+        
         let width = CGFloat(cgImage.width)
         let height = CGFloat(cgImage.height)
         let cropRect = CGRect(x: outputRect.origin.x * width, y: outputRect.origin.y * height, width: outputRect.size.width * width, height: outputRect.size.height * height)
 
-        cgImage = cgImage.cropping(to: cropRect)!
-        let croppedUIImage = UIImage(cgImage: cgImage, scale: 1.0, orientation: originalImage.imageOrientation)
+        guard let finalImage = cgImage.cropping(to: cropRect) else {
+            return originalImage
+        }
+        
+        let croppedUIImage = UIImage(cgImage: finalImage, scale: 1.0, orientation: originalImage.imageOrientation)
 
         return croppedUIImage
     }

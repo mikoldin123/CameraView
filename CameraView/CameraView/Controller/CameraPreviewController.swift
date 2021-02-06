@@ -9,73 +9,16 @@
 import UIKit
 
 class CameraPreviewController: UIViewController {
-    
-    lazy var controlsView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(view)
-        
-        NSLayoutConstraint.activate([
-            view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            view.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.20)
-        ])
-        
-        return view
-    }()
-    
-    lazy var cancelButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        self.controlsView.addSubview(button)
-        
-        NSLayoutConstraint.activate([
-            button.leadingAnchor.constraint(equalTo: self.controlsView.leadingAnchor, constant: 64.0),
-            button.centerYAnchor.constraint(equalTo: self.controlsView.centerYAnchor),
-            button.widthAnchor.constraint(lessThanOrEqualTo: self.controlsView.widthAnchor, multiplier: 0.30)
-        ])
-        
-        return button
-    }()
-    
-    lazy var retakeButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        self.controlsView.addSubview(button)
-        
-        NSLayoutConstraint.activate([
-            button.trailingAnchor.constraint(equalTo: self.controlsView.trailingAnchor, constant: -64.0),
-            button.centerYAnchor.constraint(equalTo: self.controlsView.centerYAnchor),
-            button.widthAnchor.constraint(lessThanOrEqualTo: self.controlsView.widthAnchor, multiplier: 0.30)
-        ])
-        
-        return button
-    }()
-    
-    lazy var captureButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        self.controlsView.addSubview(button)
-        
-        NSLayoutConstraint.activate([
-            button.heightAnchor.constraint(equalToConstant: 72.0),
-            button.centerYAnchor.constraint(equalTo: self.controlsView.centerYAnchor),
-            button.centerXAnchor.constraint(equalTo: self.controlsView.centerXAnchor)
-        ])
-        
-        return button
-    }()
-    
     lazy var previewImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(imageView)
         
         NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+            imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16.0),
+            imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16.0),
+            imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16.0),
+            imageView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16.0)
         ])
         
         return imageView
@@ -91,18 +34,7 @@ class CameraPreviewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .black
-
-        controlsView.backgroundColor = UIColor.black
-        
-        cancelButton.setTitle("Cancel", for: .normal)
-        cancelButton.addTarget(self, action: #selector(didCancel), for: .touchUpInside)
-        
-        captureButton.setImage(#imageLiteral(resourceName: "use-photo-shutter"), for: .normal)
-        captureButton.addTarget(self, action: #selector(willUsePhoto), for: .touchUpInside)
-        
-        retakeButton.setTitle("Retake", for: .normal)
-        retakeButton.addTarget(self, action: #selector(willRetake), for: .touchUpInside)
+        self.view.backgroundColor = .darkGray
         
         previewImageView.contentMode = .scaleAspectFit
         previewImageView.image = cameraMngr?.photoImage

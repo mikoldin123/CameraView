@@ -63,7 +63,7 @@ class CameraManager: CameraManagerServices {
             return nil
         }
         
-        return UIImage(cgImage: cgImage, scale: 1.0, orientation: .up)
+        return UIImage(cgImage: cgImage, scale: 1.0, orientation: .right)
     }
     
     static let shared = CameraManager()
